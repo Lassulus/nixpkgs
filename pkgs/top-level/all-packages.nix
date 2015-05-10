@@ -12934,6 +12934,8 @@ let
 
   gtypist = callPackage ../games/gtypist { };
 
+  gzdoom = callPackage ../games/gzdoom { };
+
   hedgewars = callPackage ../games/hedgewars {
     inherit (haskellPackages) ghc network vector utf8String bytestringShow
       random hslogger dataenc;
