@@ -2,11 +2,11 @@
 
 stdenv.mkDerivation rec {
   name = "jenkins-${version}";
-  version = "1.594";
+  version = "1.633";
 
   src = fetchurl {
     url = "http://mirrors.jenkins-ci.org/war/${version}/jenkins.war";
-    sha256 = "1ypinl78avvir9499xargjbrzxv2b8kspjicsg8xzk5wsymzybn1";
+    sha256 = "1s5jihq9shscsdazb1c393qab0djms4by5zn3ciylcgvif431n8m";
   };
   meta = with stdenv.lib; {
     description = "An extendable open source continuous integration server";

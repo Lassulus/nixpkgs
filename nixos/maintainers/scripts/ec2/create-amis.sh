@@ -38,8 +38,7 @@ for type in hvm pv; do
         prevAmi=
         prevRegion=
 
-        #for region in eu-west-1 eu-central-1 us-east-1 us-west-1 us-west-2 ap-southeast-1 ap-southeast-2 ap-northeast-1 sa-east-1; do
-        for region in eu-west-1 us-east-1; do
+        for region in eu-west-1 eu-central-1 us-east-1 us-west-1 us-west-2 ap-southeast-1 ap-southeast-2 ap-northeast-1 sa-east-1; do
 
             name=nixos-$version-$arch-$type-$store
             description="NixOS $system $version ($type-$store)"
@@ -177,7 +176,6 @@ for type in hvm pv; do
                         extraFlags+=" --virtualization-type hvm"
                     fi
 
-                    set -x
                     ami=$(ec2-register \
                         -n "$name" \
                         -d "$description" \
@@ -193,15 +191,17 @@ for type in hvm pv; do
                 ami=$(cat $amiFile)
             fi
 
-            echo "waiting for AMI..."
-            while true; do
-                status=$(ec2-describe-images "$ami" --region "$region" | head -n1 | cut -f 5)
-                if [ "$status" = available ]; then break; fi
-                sleep 10
-            done
+            if [ -z "$NO_WAIT" -o -z "$prevAmi" ]; then
+                echo "waiting for AMI..."
+                while true; do
+                    status=$(ec2-describe-images "$ami" --region "$region" | head -n1 | cut -f 5)
+                    if [ "$status" = available ]; then break; fi
+                    sleep 10
+                done
 
-            ec2-modify-image-attribute \
-                --region "$region" "$ami" -l -a all
+                ec2-modify-image-attribute \
+                    --region "$region" "$ami" -l -a all
+            fi
 
             echo "region = $region, type = $type, store = $store, ami = $ami"
             if [ -z "$prevAmi" ]; then

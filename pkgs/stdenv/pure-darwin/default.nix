@@ -20,7 +20,7 @@ let
 
   fetch = { file, sha256 }: derivation ((import <nix/fetchurl.nix> {
     url = "https://dl.dropboxusercontent.com/u/2857322/${file}";
-    inherit sha256;
+    inherit sha256 system;
     executable = true;
   }).drvAttrs // {
     __impureHostDeps = libSystemClosure;
@@ -43,6 +43,8 @@ in rec {
     export MACOSX_DEPLOYMENT_TARGET=10.7
     export SDKROOT=
     export CMAKE_OSX_ARCHITECTURES=x86_64
+    # Workaround for https://openradar.appspot.com/22671534 on 10.11.
+    export gl_cv_func_getcwd_abort_bug=no
   '';
 
   # The one dependency of /bin/sh :(
