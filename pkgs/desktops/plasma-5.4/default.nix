@@ -11,19 +11,18 @@ let
 
   inherit (pkgs) lib stdenv symlinkJoin;
 
-  kf5 = pkgs.kf513;
+  kf5 = pkgs.kf514;
   kdeApps = pkgs.kdeApps_15_08;
 
   srcs = import ./srcs.nix { inherit (pkgs) fetchurl; inherit mirror; };
   mirror = "mirror://kde";
 
-  mkDerivation = args:
+  plasmaPackage = args:
     let
-      inherit (stdenv) mkDerivation;
       inherit (args) name;
       sname = args.sname or name;
       inherit (srcs."${sname}") src version;
-    in mkDerivation (args // {
+    in stdenv.mkDerivation (args // {
       name = "${name}-${version}";
       inherit src;
 
@@ -82,6 +81,6 @@ let
     systemsettings = callPackage ./systemsettings.nix {};
   };
 
-  newScope = scope: kdeApps.newScope ({ inherit mkDerivation; } // scope);
+  newScope = scope: kdeApps.newScope ({ inherit plasmaPackage; } // scope);
 
 in lib.makeScope newScope addPackages

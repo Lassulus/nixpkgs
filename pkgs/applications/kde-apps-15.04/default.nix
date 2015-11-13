@@ -281,7 +281,7 @@ let
         buildInputs = [ scope.canberra ];
         nativeBuildInputs = [ scope.pkgconfig ];
         # cmake does not detect path to `ilmbase`
-        NIX_CFLAGS_COMPILE = "-I${scope.ilmbase}/include/OpenEXR";
+        NIX_CFLAGS_COMPILE = "-I${scope.ilmbase}/include/OpenEXR -I${pkgs.glib}/include/glib-2.0 -I${pkgs.glib}/lib/glib-2.0/include";
         # some components of this package have been replaced in other packages
         meta = { priority = 10; };
       };
@@ -289,6 +289,7 @@ let
       kde-wallpapers = kde4Package super.kde-wallpapers;
 
       kde-workspace = extendDerivation (kde4Package super.kde-workspace) {
+        patches = [ ./kde-workspace/ksysguard-0001-disable-signalplottertest.patch ];
         buildInputs = with scope.xorg; [
             libxkbfile libXcomposite xcbutilimage xcbutilkeysyms xcbutilrenderutil
         ];
