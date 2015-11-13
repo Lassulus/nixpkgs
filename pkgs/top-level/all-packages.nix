@@ -11027,6 +11027,8 @@ let
 
   bitlbee-facebook = callPackage ../applications/networking/instant-messengers/bitlbee-facebook { };
 
+  bitlbee-steam = callPackage ../applications/networking/instant-messengers/bitlbee-steam { };
+
   bitmeter = callPackage ../applications/audio/bitmeter { };
 
   bleachbit = callPackage ../applications/misc/bleachbit { };
