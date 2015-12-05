@@ -41,6 +41,9 @@ with stdenv.lib;
     PM_RUNTIME y
   ''}
   PM_ADVANCED_DEBUG y
+  ${optionalString (versionAtLeast version "3.11") ''
+    X86_INTEL_LPSS y
+  ''}
   ${optionalString (versionAtLeast version "3.10") ''
     X86_INTEL_PSTATE y
   ''}
@@ -261,7 +264,7 @@ with stdenv.lib;
   MICROCODE y
   MICROCODE_INTEL y
   MICROCODE_AMD y
-  ${optionalString (versionAtLeast version "3.11") ''
+  ${optionalString (versionAtLeast version "3.11" && versionOlder version "4.4") ''
     MICROCODE_EARLY y
     MICROCODE_INTEL_EARLY y
     MICROCODE_AMD_EARLY y
@@ -276,7 +279,9 @@ with stdenv.lib;
   ${optionalString (versionAtLeast version "3.3" && versionOlder version "3.13") ''
     AUDIT_LOGINUID_IMMUTABLE y
   ''}
-  B43_PCMCIA? y
+  ${optionalString (versionOlder version "4.4") ''
+    B43_PCMCIA? y
+  ''}
   BLK_DEV_CMD640_ENHANCED y # CMD640 enhanced support
   BLK_DEV_IDEACPI y # IDE ACPI support
   BLK_DEV_INTEGRITY y
@@ -316,6 +321,9 @@ with stdenv.lib;
   MOUSE_PS2_ELANTECH y # Elantech PS/2 protocol extension
   MTRR_SANITIZER y
   NET_FC y # Fibre Channel driver support
+  ${optionalString (versionAtLeast version "3.11") ''
+    PINCTRL_BAYTRAIL y # GPIO on Intel Bay Trail, for some Chromebook internal eMMC disks
+  ''}
   PPP_MULTILINK y # PPP multilink support
   PPP_FILTER y
   REGULATOR y # Voltage and Current Regulator Support

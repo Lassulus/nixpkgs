@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, ncurses, python, which, groff, gettext, man_db, bc, libiconv, coreutils }:
+{ stdenv, fetchurl, ncurses, nettools, python, which, groff, gettext, man_db, bc, libiconv, coreutils }:
 
 stdenv.mkDerivation rec {
   name = "fish-${version}";
@@ -20,12 +20,16 @@ stdenv.mkDerivation rec {
   postInstall = ''
     sed -e "s|bc|${bc}/bin/bc|" \
         -e "s|/usr/bin/seq|${coreutils}/bin/seq|" \
-        -i "$out/share/fish/functions/seq.fish"
+        -i "$out/share/fish/functions/seq.fish" \
+           "$out/share/fish/functions/math.fish"
     sed -i "s|which |${which}/bin/which |" "$out/share/fish/functions/type.fish"
+    sed -i "s|(hostname\||(${nettools}/bin/hostname\||" "$out/share/fish/functions/fish_prompt.fish"
     sed -i "s|nroff |${groff}/bin/nroff |" "$out/share/fish/functions/__fish_print_help.fish"
     sed -e "s|gettext |${gettext}/bin/gettext |" \
         -e "s|which |${which}/bin/which |" \
         -i "$out/share/fish/functions/_.fish"
+    substituteInPlace "$out/share/fish/functions/fish_default_key_bindings.fish" \
+      --replace "clear;" "${ncurses}/bin/clear;"
   '' + stdenv.lib.optionalString (!stdenv.isDarwin) ''
     sed -i "s|Popen(\['manpath'|Popen(\['${man_db}/bin/manpath'|" "$out/share/fish/tools/create_manpage_completions.py"
   '' + ''

@@ -31,7 +31,7 @@ let
     gnome_terminal gnome-user-docs bijiben evolution file-roller gedit
     gnome-clocks gnome-music gnome-tweak-tool gnome-photos
     nautilus-sendto dconf-editor vinagre gnome-weather gnome-logs
-    gnome-maps gnome-characters gnome-calendar accerciser gnome-nettool
+    gnome-characters gnome-calendar accerciser gnome-nettool
     gnome-getting-started-docs
   ];
 
@@ -176,6 +176,7 @@ let
   libcroco = callPackage ./core/libcroco {};
 
   libgee = callPackage ./core/libgee { };
+  libgee_1 = callPackage ./core/libgee/libgee-1.nix { };
 
   libgdata = callPackage ./core/libgdata { };
 

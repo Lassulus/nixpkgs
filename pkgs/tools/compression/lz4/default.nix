@@ -15,12 +15,13 @@ stdenv.mkDerivation rec {
 
   enableParallelBuilding = true;
 
-  makeFlags = "PREFIX=$(out)";
+  makeFlags = [ "PREFIX=$(out)" ];
 
   doCheck = false; # tests take a very long time
   checkTarget = "test";
 
   meta = with stdenv.lib; {
+    inherit version;
     description = "Extremely fast compression algorithm";
     longDescription = ''
       Very fast lossless compression algorithm, providing compression speed
@@ -31,7 +32,7 @@ stdenv.mkDerivation rec {
     '';
     homepage = https://code.google.com/p/lz4/;
     license = with licenses; [ bsd2 gpl2Plus ];
-    platforms = with platforms; linux;
+    platforms = platforms.linux;
     maintainers = with maintainers; [ nckx ];
   };
 }

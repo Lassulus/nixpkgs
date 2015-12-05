@@ -1,23 +1,26 @@
 { stdenv, fetchgit, rustPlatform, file, curl, python, pkgconfig, openssl
-, cmake, zlib }:
-
-with ((import ./common.nix) { inherit stdenv; version = "0.5.0"; });
+, cmake, zlib, makeWrapper }:
 
 with rustPlatform;
 
+with ((import ./common.nix) {
+  inherit stdenv rustc;
+  version = "0.6.0";
+});
+
 buildRustPackage rec {
-  inherit name version meta;
+  inherit name version meta passthru;
 
   # Needs to use fetchgit instead of fetchFromGitHub to fetch submodules
   src = fetchgit {
     url = "git://github.com/rust-lang/cargo";
     rev = "refs/tags/${version}";
-    sha256 = "1wg7vr6fpk9n76ly65lf2z9w1dj5nhykffbwrv46lybd8m3r8x3w";
+    sha256 = "1kxri32sz9ygnf4wlbj7hc7q9p6hmm5xrb9zzkx23wzkzbcpyjyz";
   };
 
-  depsSha256 = "1q92q63g9pz7fy9fhx8y0kqarsshmzv1dq18ki3hdd7d5pcbczna";
+  depsSha256 = "1m045yywv67sx75idbsny59d3dzbqnhr07k41jial5n5zwp87mb9";
 
-  buildInputs = [ file curl pkgconfig python openssl cmake zlib ];
+  buildInputs = [ file curl pkgconfig python openssl cmake zlib makeWrapper ];
 
   configurePhase = ''
     ./configure --enable-optimize --prefix=$out --local-cargo=${cargo}/bin/cargo

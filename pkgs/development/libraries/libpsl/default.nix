@@ -5,10 +5,10 @@ let
 
   version = "${libVersion}-list-${listVersion}";
 
-  listVersion = "2015-10-11";
+  listVersion = "2015-12-03";
   listSources = fetchFromGitHub {
-    sha256 = "1zvfywi43kyh7b6hsm8ldmdypk9n36jzp0s1lf2rzd4yzcyxwgzy";
-    rev = "8952c0c398ba44d507a8ed430fd1cff7b92dfde8";
+    sha256 = "1192g8x57pm9r3va1xfvni0jczg8wy5kka6vcwnvc3lk4314l2na";
+    rev = "6c137ba598d61f2ea299632bb447608a9fc25d0f";
     repo = "list";
     owner = "publicsuffix";
   };
@@ -28,6 +28,10 @@ in stdenv.mkDerivation {
   buildInputs = [ icu libxslt ];
   nativeBuildInputs = [ autoreconfHook docbook_xsl gtk_doc pkgconfig ];
 
+  postPatch = ''
+    substituteInPlace src/psl.c --replace bits/stat.h sys/stat.h
+  '';
+
   preAutoreconf = ''
     mkdir m4
     gtkdocize
@@ -37,7 +41,7 @@ in stdenv.mkDerivation {
     # The libpsl check phase requires the list's test scripts (tests/) as well
     cp -Rv "${listSources}"/* list
   '';
-  configureFlags = "--disable-static --enable-gtk-doc --enable-man";
+  configureFlags = [ "--disable-static" "--enable-gtk-doc" "--enable-man" ];
 
   enableParallelBuilding = true;
 

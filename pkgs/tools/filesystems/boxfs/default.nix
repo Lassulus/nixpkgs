@@ -26,18 +26,18 @@ in stdenv.mkDerivation {
   name = "boxfs-${version}";
 
   src = srcs.boxfs2;
+
   prePatch = with srcs; ''
     substituteInPlace Makefile --replace "git pull" "true"
     cp -a --no-preserve=mode ${libapp} libapp
     cp -a --no-preserve=mode ${libjson} libjson
   '';
-
   patches = [ ./work-around-API-borkage.patch ];
 
   buildInputs = [ curl fuse libxml2 ];
   nativeBuildInputs = [ pkgconfig ];
 
-  buildFlags = "static";
+  buildFlags = [ "static" ];
 
   installPhase = ''
     mkdir -p $out/bin
@@ -45,6 +45,7 @@ in stdenv.mkDerivation {
   '';
 
   meta = with stdenv.lib; {
+    inherit version;
     description = "FUSE file system for box.com accounts";
     longDescription = ''
       Store files on box.com (an account is required). The first time you run
@@ -55,7 +56,7 @@ in stdenv.mkDerivation {
     '';
     homepage = https://github.com/drotiro/boxfs2;
     license = licenses.gpl3;
-    platforms = with platforms; linux;
+    platforms = platforms.linux;
     maintainers = with maintainers; [ nckx ];
   };
 }

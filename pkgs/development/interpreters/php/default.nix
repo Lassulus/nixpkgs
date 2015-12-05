@@ -7,7 +7,7 @@
 let
 
   generic =
-    { version, sha256, url ? "http://www.php.net/distributions/php-${version}.tar.bz2" }:
+    { version, sha256 }:
 
     let php7 = lib.versionAtLeast version "7.0"; in
 
@@ -268,7 +268,8 @@ let
       '';
 
       src = fetchurl {
-        inherit url sha256;
+        url = "http://www.php.net/distributions/php-${version}.tar.bz2";
+        inherit sha256;
       };
 
       meta = with stdenv.lib; {
@@ -295,14 +296,13 @@ in {
   };
 
   php56 = generic {
-    version = "5.6.14";
-    sha256 = "1c1f5dkfifhaxvl4c7cabv339lazd0znj3phbnd87ha12vqrbwin";
+    version = "5.6.16";
+    sha256 = "1bnjpj5vjj2sx80z3x452vhk7bfdl8hbli61byhapgy1ch4z9rjg";
   };
 
-  php70 = lib.lowPrio (generic {
-    version = "7.0.0beta1";
-    url = "https://downloads.php.net/~ab/php-7.0.0beta1.tar.bz2";
-    sha256 = "1pj3ysfhswg2r370ivp33fv9zbcl3yvhmxgnc731k08hv6hmd984";
-  });
+  php70 = generic {
+    version = "7.0.0";
+    sha256 = "1spwxpfx0q95cfkwl1n8hpczgwy69x901v60ywwpl5ijd0q58am9";
+  };
 
 }

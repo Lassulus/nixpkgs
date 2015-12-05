@@ -64,7 +64,7 @@ self: super: {
   # all required dependencies are part of Stackage. To comply with Stackage, we
   # make 'git-annex-without-assistant' our default version, but offer another
   # build which has the assistant to be used in the top-level.
-  git-annex_5_20151019 = (disableCabalFlag super.git-annex_5_20151019 "assistant").override {
+  git-annex_5_20150727 = (disableCabalFlag super.git-annex_5_20150727 "assistant").override {
     dbus = if pkgs.stdenv.isLinux then self.dbus else null;
     fdo-notify = if pkgs.stdenv.isLinux then self.fdo-notify else null;
     hinotify = if pkgs.stdenv.isLinux then self.hinotify else self.fsnotify;
@@ -407,7 +407,6 @@ self: super: {
   hs2048 = dontCheck super.hs2048;
   hsbencher = dontCheck super.hsbencher;
   hsexif = dontCheck super.hsexif;
-  hsparql = dontCheck super.hsparql; # https://github.com/robstewart57/hsparql/issues/15
   hspec-server = dontCheck super.hspec-server;
   HTF = dontCheck super.HTF;
   HTF_0_12_2_3 = dontCheck super.HTF_0_12_2_3;
@@ -448,7 +447,6 @@ self: super: {
   punycode = dontCheck super.punycode;
   pwstore-cli = dontCheck super.pwstore-cli;
   quantities = dontCheck super.quantities;
-  rdf4h = dontCheck super.rdf4h; # https://github.com/robstewart57/rdf4h/issues/32
   redis-io = dontCheck super.redis-io;
   rethinkdb = dontCheck super.rethinkdb;
   Rlang-QQ = dontCheck super.Rlang-QQ;
@@ -664,9 +662,6 @@ self: super: {
   # https://github.com/nushio3/doctest-prop/issues/1
   doctest-prop = dontCheck super.doctest-prop;
 
-  # https://github.com/adamwalker/sdr/issues/1
-  sdr = dontCheck super.sdr;
-
   # https://github.com/bos/aeson/issues/253
   aeson = dontCheck super.aeson;
 
@@ -709,6 +704,10 @@ self: super: {
   yesod-bin = if pkgs.stdenv.isDarwin
     then addBuildDepend super.yesod-bin pkgs.darwin.apple_sdk.frameworks.Cocoa
     else super.yesod-bin;
+
+  hmatrix = if pkgs.stdenv.isDarwin
+    then addBuildDepend super.hmatrix pkgs.darwin.apple_sdk.frameworks.Accelerate
+    else super.hmatrix;
 
   # https://github.com/commercialhaskell/stack/issues/408
   # https://github.com/commercialhaskell/stack/issues/409
@@ -922,7 +921,13 @@ self: super: {
     librarySystemDepends = (drv.librarySystemDepends or []) ++ [ pkgs.ncurses ];
   });
 
-  # Re-build this package to fix broken binaries on Hydra.
-  math-functions = triggerRebuild super.math-functions 1;
+  # https://github.com/fpco/stackage/issues/1004
+  gtk2hs-buildtools = super.gtk2hs-buildtools.override { alex = self.alex_3_1_4; };
+
+  # https://github.com/Gabriel439/Haskell-Morte-Library/issues/32
+  morte = super.morte.override { alex = self.alex_3_1_4; };
+
+  # https://github.com/mainland/language-c-quote/issues/57
+  language-c-quote = super.language-c-quote.override { alex = self.alex_3_1_4; };
 
 }

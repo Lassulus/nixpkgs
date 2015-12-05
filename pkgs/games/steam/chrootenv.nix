@@ -9,6 +9,8 @@ buildFHSUserEnv {
   targetPkgs = pkgs: with pkgs; [
       steamPackages.steam
       steamPackages.steam-fonts
+      # License agreement
+      gnome3.zenity
       # Errors in output without those
       pciutils
       python2
@@ -40,12 +42,10 @@ buildFHSUserEnv {
     ];
 
   extraBuildCommands = ''
-    [ -d lib64 ] && mv lib64/steam lib
-
     mkdir -p steamrt
 
     ln -s ../lib64/steam-runtime steamrt/amd64
-    ln -s ../lib/steam-runtime steamrt/i386
+    ln -s ../lib32/steam-runtime steamrt/i386
   '';
 
   profile = ''

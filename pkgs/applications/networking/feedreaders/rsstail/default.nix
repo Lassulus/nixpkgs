@@ -18,7 +18,7 @@ stdenv.mkDerivation rec {
     substituteInPlace Makefile --replace -liconv_hook ""
   '';
 
-  makeFlags = "prefix=$(out)";
+  makeFlags = [ "prefix=$(out)" ];
   enableParallelBuilding = true;
 
   doCheck = true;
@@ -32,7 +32,7 @@ stdenv.mkDerivation rec {
     '';
     homepage = http://www.vanheusden.com/rsstail/;
     license = licenses.gpl2Plus;
-    platforms = with platforms; linux;
+    platforms = platforms.linux;
     maintainers = with maintainers; [ nckx ];
   };
 }

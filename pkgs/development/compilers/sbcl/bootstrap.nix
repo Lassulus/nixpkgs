@@ -38,6 +38,9 @@ stdenv.mkDerivation rec {
   buildInputs = [ makeWrapper ];
 
   installPhase = ''
+    mkdir -p $out/bin
+    cp -p src/runtime/sbcl $out/bin
+
     mkdir -p $out/share/sbcl
     cp -p src/runtime/sbcl $out/share/sbcl
     cp -p output/sbcl.core $out/share/sbcl
@@ -54,7 +57,7 @@ stdenv.mkDerivation rec {
     description = "Lisp compiler";
     homepage = "http://www.sbcl.org";
     license = licenses.publicDomain; # and FreeBSD
-    maintainers = [maintainers.raskin];
+    maintainers = [maintainers.raskin maintainers.tohl];
     platforms = attrNames options;
   };
 }

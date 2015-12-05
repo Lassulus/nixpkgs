@@ -2,7 +2,7 @@
 , libnetfilter_conntrack, libnl, libpcap, libsodium, liburcu, ncurses, perl
 , pkgconfig, zlib }:
 
-let version = "0.5.9-130-ga81b515"; in
+let version = "0.6.0"; in
 stdenv.mkDerivation {
   name = "netsniff-ng-${version}";
 
@@ -10,8 +10,8 @@ stdenv.mkDerivation {
   src = fetchFromGitHub rec {
     repo = "netsniff-ng";
     owner = repo;
-    rev = "a81b515484828e0cff848fb7689d4a4b77f020d8";
-    sha256 = "0p65s9lpifagnb6mbw2la7zx2spckizd0pn5mp2zszn1nda5w0rq";
+    rev = "v${version}";
+    sha256 = "0vfs1vsrsbiqxp6nrdibxa60wivapjhj3sdpa4v90m3pfnqif46z";
   };
 
   buildInputs = [ bison flex geoip geolite-legacy libcli libnet libnl
@@ -28,7 +28,7 @@ stdenv.mkDerivation {
   enableParallelBuilding = true;
 
   # All files installed to /etc are just static data that can go in the store
-  makeFlags = "PREFIX=$(out) ETCDIR=$(out)/etc";
+  makeFlags = [ "PREFIX=$(out)" "ETCDIR=$(out)/etc" ];
 
   postInstall = ''
     ln -sv ${geolite-legacy}/share/GeoIP/GeoIP.dat		$out/etc/netsniff-ng/country4.dat
@@ -52,7 +52,7 @@ stdenv.mkDerivation {
     '';
     homepage = http://netsniff-ng.org/;
     license = licenses.gpl2;
-    platforms = with platforms; linux;
+    platforms = platforms.linux;
     maintainers = with maintainers; [ nckx ];
   };
 }

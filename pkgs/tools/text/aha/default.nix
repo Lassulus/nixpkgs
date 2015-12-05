@@ -11,6 +11,10 @@ stdenv.mkDerivation {
     owner = "theZiz";
   };
 
+  makeFlags = [ "PREFIX=$(out)" ];
+
+  enableParallelBuilding = true;
+
   meta = with stdenv.lib; {
     inherit version;
     description = "ANSI HTML Adapter";
@@ -19,11 +23,7 @@ stdenv.mkDerivation {
     '';
     homepage = https://github.com/theZiz/aha;
     license = with licenses; [ lgpl2Plus mpl11 ];
-    platforms = with platforms; linux;
+    platforms = platforms.linux;
     maintainers = with maintainers; [ nckx ];
   };
-
-  makeFlags = "PREFIX=$(out)";
-
-  enableParallelBuilding = true;
 }
