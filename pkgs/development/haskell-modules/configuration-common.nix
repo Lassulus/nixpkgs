@@ -921,13 +921,9 @@ self: super: {
     librarySystemDepends = (drv.librarySystemDepends or []) ++ [ pkgs.ncurses ];
   });
 
-  # https://github.com/fpco/stackage/issues/1004
-  gtk2hs-buildtools = super.gtk2hs-buildtools.override { alex = self.alex_3_1_4; };
-
   # https://github.com/Gabriel439/Haskell-Morte-Library/issues/32
   morte = super.morte.override { alex = self.alex_3_1_4; };
 
   # https://github.com/mainland/language-c-quote/issues/57
   language-c-quote = super.language-c-quote.override { alex = self.alex_3_1_4; };
-
 }

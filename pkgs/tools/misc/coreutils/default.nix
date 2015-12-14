@@ -2,6 +2,7 @@
 , aclSupport ? false, acl ? null
 , selinuxSupport? false, libselinux ? null, libsepol ? null
 , autoconf, automake114x, texinfo
+, withPrefix ? false
 }:
 
 assert aclSupport -> acl != null;
@@ -35,6 +36,8 @@ let
        stdenv.lib.optionalString stdenv.isArm ''
          touch -r src/stat.c src/tail.c
        '';
+
+    configureFlags = optionalString stdenv.isSunOS "ac_cv_func_inotify_init=no";
 
     nativeBuildInputs = [ perl ];
     buildInputs = [ gmp ]
@@ -80,8 +83,20 @@ let
     enableParallelBuilding = false;
 
     NIX_LDFLAGS = optionalString selinuxSupport "-lsepol";
+    FORCE_UNSAFE_CONFIGURE = stdenv.lib.optionalString (stdenv.system == "armv7l-linux" || stdenv.isSunOS) "1";
 
     makeFlags = optionalString stdenv.isDarwin "CFLAGS=-D_FORTIFY_SOURCE=0";
+
+    # e.g. ls -> gls; grep -> ggrep
+    postFixup = # feel free to simplify on a mass rebuild
+      if withPrefix then
+      ''
+        (
+          cd "$out/bin"
+          find * -type f -executable -exec mv {} g{} \;
+        )
+      ''
+      else null;
 
     meta = {
       homepage = http://www.gnu.org/software/coreutils/;
@@ -103,6 +118,3 @@ let
   };
 in
   self
-  // stdenv.lib.optionalAttrs (stdenv.system == "armv7l-linux" || stdenv.isSunOS) {
-    FORCE_UNSAFE_CONFIGURE = 1;
-  }
