@@ -78,6 +78,7 @@ in {
       debug = mkEnableOption "gnome-session debug messages";
     };
 
+
     environment.gnome3.excludePackages = mkOption {
       default = [];
       example = literalExample "[ pkgs.gnome3.totem ]";
@@ -165,6 +166,8 @@ in {
           waitPID=$!
         '';
       };
+
+    services.xserver.displayManager.gdm.enable = mkDefault true;
 
     services.xserver.updateDbusEnvironment = true;
 

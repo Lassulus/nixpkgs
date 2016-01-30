@@ -189,7 +189,8 @@ in
       ];
 
       services.xserver.displayManager.sddm = {
-        theme = "breeze";
+        enable = mkDefault true;
+        theme = mkDefault "breeze";
       };
 
       security.pam.services.kde = { allowNullPassword = true; };

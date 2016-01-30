@@ -87,8 +87,6 @@ in
       }
     ];
 
-    services.xserver.displayManager.slim.enable = false;
-
     users.extraUsers.gdm =
       { name = "gdm";
         uid = config.ids.uids.gdm;
