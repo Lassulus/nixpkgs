@@ -25,11 +25,10 @@ let
     ${poolConfig}
   '';
 
-  phpIni = pkgs.runCommand "php.ini" {
-    inherit (cfg) phpPackage phpOptions;
-    passAsFile = [ "phpOptions" ];
-  } ''
-    cat $phpPackage/etc/php.ini $phpOptionsFile > $out
+  phpIni = pkgs.writeText "php.ini" ''
+    ${readFile "${cfg.phpPackage}/etc/php.ini"}
+
+    ${cfg.phpOptions}
   '';
 
 in {
