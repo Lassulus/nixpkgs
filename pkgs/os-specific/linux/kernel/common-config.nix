@@ -205,7 +205,9 @@ with stdenv.lib;
   SND_HDA_RECONFIG y # Support reconfiguration of jack functions
   SND_HDA_PATCH_LOADER y # Support configuring jack functions via fw mechanism at boot
   SND_USB_CAIAQ_INPUT y
-  PSS_MIXER y # Enable PSS mixer (Beethoven ADSP-16 and other compatible)
+  ${optionalString (versionOlder version "4.12") ''
+    PSS_MIXER y # Enable PSS mixer (Beethoven ADSP-16 and other compatible)
+  ''}
 
   # USB serial devices.
   USB_SERIAL_GENERIC y # USB Generic Serial Driver
@@ -487,10 +489,12 @@ with stdenv.lib;
     KVM_APIC_ARCHITECTURE y
   ''}
   KVM_ASYNC_PF y
-  ${optionalString (versionAtLeast version "4.0") ''
+  ${optionalString ((versionAtLeast version "4.0") && (versionOlder version "4.12")) ''
     KVM_COMPAT? y
   ''}
-  KVM_DEVICE_ASSIGNMENT? y
+  ${optionalString (versionOlder version "4.12") ''
+    KVM_DEVICE_ASSIGNMENT? y
+  ''}
   ${optionalString (versionAtLeast version "4.0") ''
     KVM_GENERIC_DIRTYLOG_READ_PROTECT y
   ''}

@@ -24,13 +24,13 @@ let
   };
 in pythonPackages.buildPythonApplication rec {
   name = "matrix-synapse-${version}";
-  version = "0.19.3";
+  version = "0.22.1";
 
   src = fetchFromGitHub {
     owner = "matrix-org";
     repo = "synapse";
     rev = "v${version}";
-    sha256 = "0dnlv2rgda94zlgwkpryjsypcf995l7zdp19d2xiq7zpd13x6yag";
+    sha256 = "06kqqsfqmziff7i99yyxqvkqjm7fwi56abc2vy25g9kqzpdvkay7";
   };
 
   patches = [ ./matrix-synapse.patch ];
@@ -41,6 +41,7 @@ in pythonPackages.buildPythonApplication rec {
     signedjson systemd twisted ujson unpaddedbase64 pyyaml
     matrix-angular-sdk bleach netaddr jinja2 psycopg2
     psutil msgpack lxml matrix-synapse-ldap3
+    phonenumbers jsonschema
   ];
 
   # Checks fail because of Tox.
