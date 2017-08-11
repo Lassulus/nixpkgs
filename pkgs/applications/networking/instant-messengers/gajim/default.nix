@@ -25,36 +25,29 @@ with stdenv.lib;
 
 stdenv.mkDerivation rec {
   name = "gajim-${version}";
-  version = "0.16.6";
+  version = "0.16.8";
 
   src = fetchurl {
     name = "${name}.tar.bz2";
     url = "https://dev.gajim.org/gajim/gajim/repository/archive.tar.bz2?"
         + "ref=${name}";
-    sha256 = "1s0h4xll9490vh7ygmi4zsd1fa107f3s9ykhpq0snb04fllwhjq7";
+    sha256 = "009cpzqh4zy7hc9pq3r5m4lgagwawhjab13rjzavb0n9ggijcscb";
   };
 
   patches = let
     # An attribute set of revisions to apply from the upstream repository.
     cherries = {
-      misc-test-fixes = {
-        rev = "1f0d7387fd020df5dfc9a6349005ec7dedb7c008";
-        sha256 = "0nazpzyg50kl0k8z4dkn033933iz60g1i6nzhib1nmzhwwbnacc5";
-      };
-      jingle-fix = {
-        rev = "491d32a2ec13ed3a482e151e0b403eda7b4151b8";
-        sha256 = "1pfg1ysr0p6rcwmd8ikjs38av3c4gcxn8pxr6cnnj27n85gvi30g";
-      };
-      fix-connection-mock = {
-        rev = "46a19733d208fbd2404cbaeedd8c203d0b6557a4";
-        sha256 = "0l3s577pksnz16r4mqa1zmz4y165amsx2mclrm4vzlszy35rmy2b";
-      };
+      #example-fix = {
+      #  rev = "<replace-with-git-revsion>";
+      #  sha256 = "<replace-with-sha256>";
+      #};
     };
-  in mapAttrsToList (name: { rev, sha256 }: fetchurl {
+  in (mapAttrsToList (name: { rev, sha256 }: fetchurl {
     name = "gajim-${name}.patch";
     url = "https://dev.gajim.org/gajim/gajim/commit/${rev}.diff";
     inherit sha256;
-  }) cherries;
+  }) cherries)
+    ++ [./fix-tests.patch]; # https://dev.gajim.org/gajim/gajim/issues/8660
 
   postPatch = ''
     sed -i -e '0,/^[^#]/ {
