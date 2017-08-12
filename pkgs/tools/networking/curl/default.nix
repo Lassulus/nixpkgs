@@ -21,11 +21,11 @@ assert scpSupport -> libssh2 != null;
 assert c-aresSupport -> c-ares != null;
 
 stdenv.mkDerivation rec {
-  name = "curl-7.53.1";
+  name = "curl-7.55.0";
 
   src = fetchurl {
     url = "http://curl.haxx.se/download/${name}.tar.bz2";
-    sha256 = "1s1hyndva0yp62xy96pcp4anzrvw6cl0abjajim17sbmdp00fwhw";
+    sha256 = "1cg5h0klsx887qd4wpkk5bpkbw1bfc4q7adsrai71zhmdzn6j7dg";
   };
 
   outputs = [ "bin" "dev" "out" "man" "devdoc" ];
@@ -71,6 +71,10 @@ stdenv.mkDerivation rec {
   CXXCPP = "g++ -E";
 
   postInstall = ''
+    pushd docs/libcurl
+    make install
+    popd
+
     moveToOutput bin/curl-config "$dev"
     sed '/^dependency_libs/s|${libssh2.dev}|${libssh2.out}|' -i "$out"/lib/*.la
   '' + stdenv.lib.optionalString gnutlsSupport ''
