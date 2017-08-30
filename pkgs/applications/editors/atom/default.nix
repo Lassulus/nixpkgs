@@ -1,12 +1,12 @@
-{ stdenv, fetchurl, lib, makeWrapper, gvfs, atomEnv}:
+{ stdenv, pkgs, fetchurl, lib, makeWrapper, gvfs, atomEnv}:
 
 stdenv.mkDerivation rec {
   name = "atom-${version}";
-  version = "1.16.0";
+  version = "1.19.3";
 
   src = fetchurl {
     url = "https://github.com/atom/atom/releases/download/v${version}/atom-amd64.deb";
-    sha256 = "10qzhfz34i7x7z5fv5a73a6aiwxvanyn0v825a6yz9qfc2mg4shd";
+    sha256 = "0cms0zgxlzrm0sdqm97qdvrmvjcdcrbqi3bw66xabgx365pkry7z";
     name = "${name}.deb";
   };
 
@@ -14,7 +14,7 @@ stdenv.mkDerivation rec {
 
   buildCommand = ''
     mkdir -p $out/usr/
-    ar p $src data.tar.gz | tar -C $out -xz ./usr
+    ar p $src data.tar.xz | tar -C $out -xJ ./usr
     substituteInPlace $out/usr/share/applications/atom.desktop \
       --replace /usr/share/atom $out/bin
     mv $out/usr/* $out/
@@ -32,8 +32,8 @@ stdenv.mkDerivation rec {
       --set-rpath "${atomEnv.libPath}" \
       $out/share/atom/resources/app/apm/bin/node
 
-    patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
-      $out/share/atom/resources/app.asar.unpacked/node_modules/symbols-view/vendor/ctags-linux
+    rm -f $out/share/atom/resources/app/node_modules/dugite/git/bin/git
+    ln -s ${pkgs.git}/bin/git $out/share/atom/resources/app/node_modules/dugite/git/bin/git
 
     find $out/share/atom -name "*.node" -exec patchelf --set-rpath "${atomEnv.libPath}:$out/share/atom" {} \;
   '';

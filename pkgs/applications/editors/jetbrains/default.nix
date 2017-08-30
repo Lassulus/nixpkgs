@@ -160,12 +160,12 @@ in
 
   idea-community = buildIdea rec {
     name = "idea-community-${version}";
-    version = "2017.2.1";
+    version = "2017.2.2"; /* updated by script */
     description = "Integrated Development Environment (IDE) by Jetbrains, community edition";
     license = stdenv.lib.licenses.asl20;
     src = fetchurl {
       url = "https://download.jetbrains.com/idea/ideaIC-${version}.tar.gz";
-      sha256 = "1z8gp209jpjzvllnrpxzmbhgaxkklxw8nkm3g2drb7nal2hhs113";
+      sha256 = "c719af3d538bef23d061ef62d4acbf503198ff62322a3c0c5b3c38ab7ac36c4f"; /* updated by script */
     };
     wmClass = "jetbrains-idea-ce";
   };
@@ -196,12 +196,12 @@ in
 
   idea-ultimate = buildIdea rec {
     name = "idea-ultimate-${version}";
-    version = "2017.2.1";
+    version = "2017.2.2"; /* updated by script */
     description = "Integrated Development Environment (IDE) by Jetbrains, requires paid license";
     license = stdenv.lib.licenses.unfree;
     src = fetchurl {
       url = "https://download.jetbrains.com/idea/ideaIU-${version}-no-jdk.tar.gz";
-      sha256 = "0y3r82i229d7lywixyifv4kkrwivixl75flagaqbkzw3j9wklg3k";
+      sha256 = "b8eb9d612800cc896eb6b6fbefbf9f49d92d2350ae1c3c4598e5e12bf93be401"; /* updated by script */
     };
     wmClass = "jetbrains-idea";
   };
@@ -244,24 +244,24 @@ in
 
   pycharm-community = buildPycharm rec {
     name = "pycharm-community-${version}";
-    version = "2017.1.5"; /* updated by script */
+    version = "2017.2.2"; /* updated by script */
     description = "PyCharm Community Edition";
     license = stdenv.lib.licenses.asl20;
     src = fetchurl {
       url = "https://download.jetbrains.com/python/${name}.tar.gz";
-      sha256 = "1a0bbf0d881527e08aad7a5adaa3ad44e8754c3eb2c3a8ed5ab113491549679b"; /* updated by script */
+      sha256 = "4eacc9bf512406bebf71546ccb4b6c14ea8e06748fd76be6ca409ea1955e1f53"; /* updated by script */
     };
     wmClass = "jetbrains-pycharm-ce";
   };
 
   pycharm-professional = buildPycharm rec {
     name = "pycharm-professional-${version}";
-    version = "2017.1.5"; /* updated by script */
+    version = "2017.2.2"; /* updated by script */
     description = "PyCharm Professional Edition";
     license = stdenv.lib.licenses.unfree;
     src = fetchurl {
       url = "https://download.jetbrains.com/python/${name}.tar.gz";
-      sha256 = "52519dfd0e913b5ccb8767155cd4d1fd413967d5010e8474cdc9a1fa688016ce"; /* updated by script */
+      sha256 = "21aedfd189115fcfee0e8c8df88eccbd8f19b998667af3c55ce5d56d4eaa37a9"; /* updated by script */
     };
     wmClass = "jetbrains-pycharm";
   };
@@ -292,12 +292,12 @@ in
 
   webstorm = buildWebStorm rec {
     name = "webstorm-${version}";
-    version = "2017.1.4";
+    version = "2017.2.2"; /* updated by script */
     description = "Professional IDE for Web and JavaScript development";
     license = stdenv.lib.licenses.unfree;
     src = fetchurl {
       url = "https://download.jetbrains.com/webstorm/WebStorm-${version}.tar.gz";
-      sha256 = "0aw2728wknss5vn2fkgz8rkm5vwk031305f32dirfrh51bvmq2zm";
+      sha256 = "d6b7b103f8543e25d2602657f12d029856529895af6354e1a0875ed40bd05180"; /* updated by script */
     };
     wmClass = "jetbrains-webstorm";
   };
