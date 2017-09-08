@@ -10751,7 +10751,9 @@ with pkgs;
 
   wt = callPackage ../development/libraries/wt { };
 
-  wvstreams = callPackage ../development/libraries/wvstreams { };
+  wvstreams = callPackage ../development/libraries/wvstreams {
+    stdenv = overrideCC stdenv gcc49;
+  };
 
   wxGTK = wxGTK28;
 
