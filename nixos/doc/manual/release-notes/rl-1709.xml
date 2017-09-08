@@ -146,12 +146,6 @@ rmdir /var/lib/ipfs/.ipfs
   </listitem>
   <listitem>
     <para>
-      <literal>wvdial</literal> package and module were removed. This is due to the project
-      being dead and not building with openssl 1.1.
-    </para>
-  </listitem>
-  <listitem>
-    <para>
       <literal>cc-wrapper</literal>'s setup-hook now exports a number of
       environment variables corresponding to binutils binaries,
       (e.g. <envar>LD</envar>, <envar>STRIP</envar>, <envar>RANLIB</envar>,
