@@ -4384,6 +4384,8 @@ in
 
   libnids = callPackage ../tools/networking/libnids { };
 
+  libprelude = callPackage ../development/libraries/libprelude { };
+
   libtorrent = callPackage ../tools/networking/p2p/libtorrent { };
 
   libmpack = callPackage ../development/libraries/libmpack { };
