@@ -327,6 +327,9 @@ in
           '';
 
         serviceConfig = {
+          User = cfg.user;
+          Group = "mysql";
+          PermissionsStartOnly = true;
           Type = if hasNotify then "notify" else "simple";
           RuntimeDirectory = "mysqld";
           # The last two environment variables are used for starting Galera clusters
