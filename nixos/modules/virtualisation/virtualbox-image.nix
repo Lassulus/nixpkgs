@@ -135,7 +135,7 @@ in {
 
       inherit pkgs lib config;
       partitionTableType = "legacy";
-      diskSize = cfg.baseImageSize;
+      diskSize = "${builtins.toString cfg.baseImageSize}M";
       additionalSpace = cfg.baseImageFreeSpace;
 
       postVM =
