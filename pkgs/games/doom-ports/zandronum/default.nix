@@ -11,7 +11,7 @@ let
 
 in stdenv.mkDerivation rec {
   pname = "zandronum${suffix}";
-  version = "3.0.1";
+  version = "3.9.1";
 
   src = fetchhg {
     url = "https://hg.osdn.net/view/zandronum/zandronum-stable";
